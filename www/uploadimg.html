@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<center>
+		<p>图床</p>
+		<hr/>
+		<form id= "fm_upload">   
+			<input type="file" name="file" id="loadimg" accept="image/png, image/jpeg" enctype="multipart/form-data" />
+			<input type="submit" value="上传" />
+		</form>
+		</center>
+		<script>
+const input = document.querySelector("#loadimg");
+const form = document.getElementById("fm_upload");
+
+function uploadfile() {
+	if (input.files.length === 0) {
+        alert("未选择文件");
+        return;
+    }
+
+	var formData = new FormData(fm_upload);
+    var xhr = new XMLHttpRequest();
+    
+    xhr.addEventListener("load", (event) => {
+		alert("OK");
+	});
+
+	xhr.addEventListener("error", (event) => {
+		alert("哎呀！出了一些问题。");
+    });
+    
+    xhr.open("POST", "/upload");
+    xhr.send(formData);
+}
+
+//监听并代替表单执行
+fm_upload.addEventListener("submit", (event) => {
+    uploadfile();
+});
+		</script>
+	</body>
+<html>
