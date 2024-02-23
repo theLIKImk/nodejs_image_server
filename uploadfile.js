@@ -35,11 +35,21 @@ http.createServer( function (request, response) {
 		//获取完写入HTTP服务器里
 		request.on('end', () => {
 			const buffer = Buffer.concat(chunks);
-			fs.writeFileSync("." + htmldir + "/p/" + pathpart.filename, buffer ,function (err){
-				if (err) console(err);
+			var file="." + htmldir + "/p/" + pathpart.filename;
+			
+			//防止被覆盖
+			fs.access(file,fs.constants.F_OK, (err) => {
+				if(err){
+					fs.writeFileSync(file, buffer ,function (err){
+						if (err) console(err);
+					});
+					response.end("0");
+				} else {
+					console.log("Exist image file!");
+					response.end("1");
+				}
 			});
 		});
-		response.end(0);
 		return;
 		
 	} else {
