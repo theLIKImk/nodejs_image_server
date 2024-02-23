@@ -12,6 +12,13 @@
 	padding: 1px;
 	text-align: right;
 }
+
+.sdimg{
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    object-fit: cover;
+}
 	</style>
 	<body>
 		<center>
@@ -49,7 +56,18 @@ function uploadfile() {
     var xhr = new XMLHttpRequest();
     
     xhr.addEventListener("load", (event) => {
-		document.getElementById("upload_msg").innerHTML='<p>上传成功!</p><a href="/p/'+ input.files[0].name +'">链接地址</a>';
+		if ( event.target.responseText == 0 ) {
+		document.getElementById("upload_msg").innerHTML='<div>' +
+														'<hr/>' +
+														'<img class="sdimg" src="/p/' + input.files[0].name + '"  width="200" height="400">' + 
+														'<p>上传成功!</p>'+
+														'<a href="/p/'+ input.files[0].name +'"><button>链接</buttton></a>' +
+														'</img>' +
+														'</div>';
+		}
+		if ( event.target.responseText == 1 ) {
+					document.getElementById("upload_msg").innerHTML='<div><hr/><p>文件名重复了......</p><div>';
+		}
 	});
 	
 	xhr.addEventListener("error", (event) => {
